@@ -1,0 +1,43 @@
+============================================================
+  HOW TO GO LIVE IN 5 MINUTES — NETLIFY FREE HOSTING
+============================================================
+
+STEP 1: Sign up (free, no credit card)
+  → Go to netlify.com → click "Sign up" → use your email
+
+STEP 2: Upload this whole folder
+  → In Netlify dashboard click "Add new site"
+  → Click "Deploy manually"  
+  → Drag the entire "deploy" folder onto the upload box
+  → Wait ~10 seconds
+
+STEP 3: You get a live URL instantly
+  → Netlify gives you something like:
+     https://sparkly-wave-482910.netlify.app
+  → That's it. Everything is live.
+
+STEP 4: Get a real domain (optional, $12/yr)
+  → In Netlify: Site settings → Domain management → Add domain
+  → Example: tampabaywebpros.com → buy on Namecheap.com
+  → Point it to Netlify in 2 clicks
+
+YOUR LIVE URLS:
+  Dashboard:  yoursite.netlify.app/
+  Builder:    yoursite.netlify.app/builder/
+  JJ Demo:    yoursite.netlify.app/demos/jj-pressure-washing/
+
+HOW TO ADD A NEW CLIENT DEMO:
+  1. Open builder/ → fill in client info → Download
+  2. Create a new folder in demos/ named after the client
+     e.g.  demos/smith-painters/
+  3. Put the downloaded HTML file in there, name it index.html
+  4. Go to Netlify → Deploys → drag the updated deploy folder
+  5. New URL is live: yoursite.netlify.app/demos/smith-painters/
+
+SENDING A DEMO TO A PROSPECT:
+  Text or email them the link, example:
+  "Hey Mike, I built this for your business — take a look:
+   https://yoursite.netlify.app/demos/jj-pressure-washing/
+   No cost to look. Takes 30 seconds."
+
+============================================================

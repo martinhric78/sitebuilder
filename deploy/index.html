@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Builder Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080f16;--panel:#0f1c28;--panel2:#13232f;--line:#1e3344;
+  --ink:#e8f4fb;--muted:#6a8fa3;--water:#19b5e8;--water2:#0c7fd6;
+  --gold:#f0a32f;--good:#34c477;--warn:#e8652a;
+  --grad:linear-gradient(95deg,#19b5e8,#0c7fd6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100vh}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* ---- TOPBAR ---- */
+.topbar{background:var(--panel);border-bottom:1px solid var(--line);padding:0 24px;position:sticky;top:0;z-index:10}
+.topbar-in{max-width:1100px;margin:0 auto;height:62px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:700;font-size:16px;color:var(--ink)}
+.brand-dot{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-size:17px;color:#fff;flex:none}
+.topbar-right{margin-left:auto;display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;font-family:inherit;font-weight:700;font-size:13px;border:0;cursor:pointer;transition:.15s}
+.btn-grad{background:var(--grad);color:#fff}
+.btn-grad:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--water);color:var(--water)}
+
+/* ---- HERO ---- */
+.hero{padding:64px 0 52px;border-bottom:1px solid var(--line)}
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.hero h1{font-family:'Space Grotesk';font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin-top:12px;color:var(--muted);font-size:15px;max-width:46ch}
+.stats-row{display:flex;gap:32px;flex-wrap:wrap;margin-top:28px}
+.stat b{font-family:'Space Grotesk';font-size:28px;font-weight:700;color:var(--ink);display:block}
+.stat span{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ---- QUICK-ADD FORM ---- */
+.add-box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;min-width:300px;max-width:400px}
+.add-box h3{font-family:'Space Grotesk';font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.add-box h3 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f{margin-bottom:12px}
+.f label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.04em}
+.f input,.f select{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:11px 13px;border-radius:8px;font-family:inherit;font-size:13.5px}
+.f input:focus,.f select:focus{outline:none;border-color:var(--water)}
+.f-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ---- FILTER TABS ---- */
+.tabs{display:flex;gap:6px;padding:28px 0 20px;flex-wrap:wrap}
+.tab{padding:9px 18px;border-radius:99px;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);color:var(--muted);cursor:pointer;transition:.15s;background:transparent}
+.tab:hover{border-color:var(--water);color:var(--water)}
+.tab.on{background:var(--water2);border-color:var(--water2);color:#fff}
+
+/* ---- DEMO CARDS ---- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;padding-bottom:60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.2s}
+.card:hover{border-color:rgba(25,181,232,.4);transform:translateY(-2px);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.card-thumb{height:156px;background:linear-gradient(150deg,var(--panel2),var(--panel));position:relative;overflow:hidden;cursor:pointer}
+.card-thumb iframe{width:200%;height:200%;border:0;transform:scale(0.5);transform-origin:top left;pointer-events:none}
+.card-thumb .thumb-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(8,15,22,.0)}
+.card-thumb:hover .thumb-overlay{background:rgba(8,15,22,.5)}
+.card-thumb .preview-btn{opacity:0;transition:.2s;background:var(--grad);color:#fff;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px;border:0;cursor:pointer}
+.card-thumb:hover .preview-btn{opacity:1}
+.card-body{padding:18px 20px}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.card-name{font-family:'Space Grotesk';font-weight:700;font-size:17px;color:var(--ink)}
+.badge{padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.badge-draft{background:rgba(240,163,47,.12);color:var(--gold);border:1px solid rgba(240,163,47,.3)}
+.badge-sent{background:rgba(25,181,232,.1);color:var(--water);border:1px solid rgba(25,181,232,.3)}
+.badge-live{background:rgba(52,196,119,.12);color:var(--good);border:1px solid rgba(52,196,119,.3)}
+.card-meta{font-size:12.5px;color:var(--muted);display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.card-actions{display:flex;gap:8px}
+.card-btn{flex:1;text-align:center;padding:9px;border-radius:8px;font-size:12px;font-weight:700;border:0;cursor:pointer;font-family:inherit;transition:.15s}
+.cb-preview{background:rgba(25,181,232,.1);color:var(--water);border:1px solid rgba(25,181,232,.25)}
+.cb-preview:hover{background:var(--water2);color:#fff;border-color:var(--water2)}
+.cb-copy{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line)}
+.cb-copy:hover{color:var(--ink);border-color:var(--muted)}
+.cb-edit{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line)}
+.cb-edit:hover{color:var(--ink);border-color:var(--muted)}
+
+/* ---- EMPTY STATE ---- */
+.empty{text-align:center;padding:72px 24px;color:var(--muted)}
+.empty .icon{font-size:48px;margin-bottom:18px}
+.empty h3{font-family:'Space Grotesk';font-size:20px;color:var(--ink);margin-bottom:8px}
+.empty p{font-size:14px;max-width:38ch;margin:0 auto}
+
+/* ---- MODAL ---- */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;place-items:center}
+.modal-bg.show{display:grid}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;width:min(90vw,800px);height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.modal-head{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.modal-head h3{flex:1;font-family:'Space Grotesk';font-size:16px;font-weight:700}
+.modal-close{background:none;border:0;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px}
+.modal-close:hover{color:var(--ink)}
+.modal-frame{flex:1;overflow:hidden}
+.modal-frame iframe{width:100%;height:100%;border:0}
+
+/* ---- TOAST ---- */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--good);color:#06301b;padding:13px 24px;border-radius:10px;font-weight:700;font-size:13.5px;box-shadow:0 16px 40px rgba(0,0,0,.4);transition:transform .3s;z-index:100;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:700px){.hero-inner{flex-direction:column}.add-box{width:100%;max-width:none}.stats-row{gap:20px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <div class="brand-dot">⚡</div>
+      <span>Site<span style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">Builder</span></span>
+    </div>
+    <div class="topbar-right">
+      <a class="btn btn-ghost" href="builder/index.html">⚙ Builder</a>
+      <button class="btn btn-grad" id="btn-new">+ New Demo</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <div>
+          <h1>Your Demo <span>Portfolio</span></h1>
+          <p>Build a site for any prospect in 15 minutes. Send the link. Close the deal.</p>
+          <div class="stats-row">
+            <div class="stat"><b id="stat-total">0</b><span>Total demos</span></div>
+            <div class="stat"><b id="stat-sent">0</b><span>Sent to prospects</span></div>
+            <div class="stat"><b id="stat-live">0</b><span>Live clients</span></div>
+          </div>
+        </div>
+        <!-- Quick-add form -->
+        <div class="add-box" id="add-box">
+          <h3>🚀 <span>Quick-add a demo</span></h3>
+          <div class="f">
+            <label>Business name</label>
+            <input id="q-name" placeholder="JJ Pressure Washing">
+          </div>
+          <div class="f-2">
+            <div class="f">
+              <label>Phone</label>
+              <input id="q-phone" placeholder="(813) 000-0000">
+            </div>
+            <div class="f">
+              <label>Trade</label>
+              <select id="q-trade">
+                <option>Pressure Washing</option>
+                <option>Painters</option>
+                <option>Landscapers</option>
+                <option>Pool Service</option>
+              </select>
+            </div>
+          </div>
+          <div class="f">
+            <label>City</label>
+            <input id="q-city" placeholder="Tampa">
+          </div>
+          <button class="btn btn-grad" style="width:100%;justify-content:center;margin-top:4px" id="btn-add">Add demo →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="wrap">
+    <div class="tabs">
+      <div class="tab on" data-filter="all">All demos</div>
+      <div class="tab" data-filter="Pressure Washing">Pressure Washing</div>
+      <div class="tab" data-filter="Painters">Painters</div>
+      <div class="tab" data-filter="Landscapers">Landscapers</div>
+      <div class="tab" data-filter="Pool Service">Pool Service</div>
+      <div class="tab" data-filter="draft">Drafts</div>
+      <div class="tab" data-filter="sent">Sent</div>
+      <div class="tab" data-filter="live">Live clients</div>
+    </div>
+
+    <!-- CARD GRID -->
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-title">Preview</h3>
+      <a id="modal-open" href="#" target="_blank" class="btn btn-grad" style="padding:8px 16px;font-size:12px">Open full page ↗</a>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-frame"><iframe id="modal-frame" title="Demo preview"></iframe></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DASHBOARD ENGINE
+   Demos are stored in localStorage so they persist.
+   Each demo has: {id, name, trade, phone, city, status, url, created}
+============================================================ */
+const KEY='sitebuilder_demos';
+const tradeIcon={
+  'Pressure Washing':'💧','Painters':'🖌️',
+  'Landscapers':'🌿','Pool Service':'🏊','Handyman':'🔧',
+  'HVAC':'❄️','Pest Control':'🐛','Roofing':'🏠'
+};
+const tradeTemplate={
+  'Pressure Washing':'../demos/jj-pressure-washing/index.html'
+};
+
+function load(){ try{return JSON.parse(localStorage.getItem(KEY))||[];}catch{return[];} }
+function save(demos){ localStorage.setItem(KEY,JSON.stringify(demos)); }
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+function fmt(iso){ const d=new Date(iso); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+
+function render(){
+  const demos=load();
+  document.getElementById('stat-total').textContent=demos.length;
+  document.getElementById('stat-sent').textContent=demos.filter(d=>d.status==='sent').length;
+  document.getElementById('stat-live').textContent=demos.filter(d=>d.status==='live').length;
+  const filter=document.querySelector('.tab.on').dataset.filter;
+  const filtered=demos.filter(d=>{
+    if(filter==='all') return true;
+    if(filter==='draft'||filter==='sent'||filter==='live') return d.status===filter;
+    return d.trade===filter;
+  });
+  const grid=document.getElementById('grid');
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="icon">🚀</div><h3>No demos here yet</h3><p>Hit "New Demo" to build your first site — takes 15 minutes.</p></div>`;
+    return;
+  }
+  grid.innerHTML=filtered.map(d=>`
+<div class="card" data-id="${d.id}">
+  <div class="card-thumb" onclick="preview('${d.id}')">
+    <div class="thumb-overlay"><button class="preview-btn">Preview ↗</button></div>
+    <div style="padding:16px;pointer-events:none">
+      <div style="font-family:'Space Grotesk';font-weight:700;font-size:22px;color:#fff;line-height:1.1">${tradeIcon[d.trade]||'🌐'}<br>${d.name}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:8px">${d.trade} · ${d.city}</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-top">
+      <div class="card-name">${d.name}</div>
+      <span class="badge badge-${d.status}">${d.status}</span>
+    </div>
+    <div class="card-meta">
+      <span>${d.phone||'—'}</span>
+      <span>${d.city}</span>
+      <span>Added ${fmt(d.created)}</span>
+    </div>
+    <div class="card-actions">
+      <button class="card-btn cb-preview" onclick="preview('${d.id}')">Preview</button>
+      <button class="card-btn cb-copy" onclick="copyLink('${d.id}')">Copy link</button>
+      <button class="card-btn cb-edit" onclick="cycleStatus('${d.id}')">→ ${nextStatus(d.status)}</button>
+    </div>
+  </div>
+</div>`).join('');
+}
+
+function nextStatus(s){ return s==='draft'?'sent':s==='sent'?'live':'draft'; }
+
+function cycleStatus(id){
+  const demos=load();
+  const d=demos.find(x=>x.id===id); if(!d) return;
+  d.status=nextStatus(d.status);
+  save(demos); render();
+  toast('Status → '+d.status);
+}
+
+function copyLink(id){
+  const demos=load();
+  const d=demos.find(x=>x.id===id); if(!d) return;
+  const url=d.url||window.location.origin+'/demos/'+slug(d.name)+'/';
+  navigator.clipboard.writeText(url).then(()=>toast('Link copied!')).catch(()=>toast(url));
+}
+
+function preview(id){
+  const demos=load();
+  const d=demos.find(x=>x.id===id); if(!d) return;
+  const url=d.url||('./demos/'+slug(d.name)+'/index.html');
+  document.getElementById('modal-title').textContent=d.name;
+  document.getElementById('modal-open').href=url;
+  document.getElementById('modal-frame').src=url;
+  document.getElementById('modal').classList.add('show');
+}
+
+document.getElementById('modal-close').addEventListener('click',()=>{
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('modal-frame').src='';
+});
+document.getElementById('modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('modal')){ document.getElementById('modal').classList.remove('show'); document.getElementById('modal-frame').src=''; }
+});
+
+/* add demo */
+document.getElementById('btn-add').addEventListener('click',()=>{
+  const name=document.getElementById('q-name').value.trim();
+  const phone=document.getElementById('q-phone').value.trim();
+  const trade=document.getElementById('q-trade').value;
+  const city=document.getElementById('q-city').value.trim();
+  if(!name){ document.getElementById('q-name').focus(); return; }
+  const demos=load();
+  const id='demo_'+Date.now();
+  demos.unshift({id, name, phone, trade, city, status:'draft', url:'', created:new Date().toISOString()});
+  save(demos); render();
+  // clear form
+  ['q-name','q-phone','q-city'].forEach(i=>document.getElementById(i).value='');
+  toast('Demo added — open Builder to build it out!');
+});
+
+document.getElementById('btn-new').addEventListener('click',()=>{
+  document.getElementById('q-name').focus();
+  document.getElementById('add-box').scrollIntoView({behavior:'smooth'});
+});
+
+/* filter tabs */
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on'); render();
+  });
+});
+
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+/* seed one example if empty so it doesn't look blank */
+if(!load().length){
+  save([
+    {id:'demo_ex1',name:'JJ Pressure Washing',phone:'(813) 555-8800',trade:'Pressure Washing',city:'Tampa',status:'sent',url:'demos/jj-pressure-washing/index.html',created:new Date().toISOString()}
+  ]);
+}
+
+render();
+</script>
+</body>
+</html>
